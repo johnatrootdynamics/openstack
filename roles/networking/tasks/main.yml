@@ -1,0 +1,79 @@
+---
+- name: Create mgmt Bridge on all hosts
+  hosts: all  # Replace with the target host or group of hosts
+  become: yes  # Run tasks with elevated privileges
+
+  tasks:
+    - name: Install bridge-utils and vlan packages
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - bridge-utils
+        - vlan
+      when: ansible_os_family == 'Debian'
+
+- name: Create Networking on controller hosts
+  hosts: all  # Replace with the target host or group of hosts
+  become: yes  # Run tasks with elevated privileges
+
+  tasks:
+    - name: Install bridge-utils and vlan packages
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - bridge-utils
+        - vlan
+      when: ansible_os_family == 'Debian'
+
+    - name: Create bridges
+      command: "brctl addbr {{ item.name }} && ip link set {{ item.name }} up && ip addr add {{ item.ip }}/24 dev {{ item.name }} && vconfig add {{ item.interface }} {{ item.vlan }}"
+      loop:
+        - { name: "br-mgmt", ip: "{{ br_mgmt_ip }}", vlan: 1000, interface: "ens160" }
+        - { name: "br-vxlan", ip: "{{ br_vxlan_ip }}", vlan: 100, interface: "ens160" }
+
+- name: Create Networking on compute hosts
+  hosts: all  # Replace with the target host or group of hosts
+  become: yes  # Run tasks with elevated privileges
+
+  tasks:
+    - name: Install bridge-utils and vlan packages
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - bridge-utils
+        - vlan
+      when: ansible_os_family == 'Debian'
+
+    - name: Create bridges
+      command: "brctl addbr {{ item.name }} && ip link set {{ item.name }} up && ip addr add {{ item.ip }}/24 dev {{ item.name }} && vconfig add {{ item.interface }} {{ item.vlan }}"
+      loop:
+        - { name: "br-mgmt", ip: "{{ br_mgmt_ip }}", vlan: 1000, interface: "ens160" }
+        - { name: "br-vxlan", ip: "{{ br_vxlan_ip }}", vlan: 1003, interface: "ens160" }
+        - { name: "br-storage", ip: "{{ br_storage_ip }}", vlan: 1004, interface: "ens160" }
+
+- name: Create Networking on storage hosts
+  hosts: all  # Replace with the target host or group of hosts
+  become: yes  # Run tasks with elevated privileges
+
+  tasks:
+    - name: Install bridge-utils and vlan packages
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - bridge-utils
+        - vlan
+      when: ansible_os_family == 'Debian'
+
+    - name: Create bridges
+      command: "brctl addbr {{ item.name }} && ip link set {{ item.name }} up && ip addr add {{ item.ip }}/24 dev {{ item.name }} && vconfig add {{ item.interface }} {{ item.vlan }}"
+      loop:
+        - { name: "br-mgmt", ip: "{{ br_mgmt_ip }}", vlan: 1000, interface: "ens160" }
+        - { name: "br-storage", ip: "{{ br_storage_ip }}", vlan: 1004, interface: "ens160" }
+
+
+
+
