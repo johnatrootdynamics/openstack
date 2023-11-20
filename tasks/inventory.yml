@@ -1,0 +1,37 @@
+all:
+  hosts:
+    controller1:
+      ansible_host: 172.16.100.101
+      br_mgmt_ip: 172.16.100.101
+      br_vxlan_ip: 172.16.
+    controller2:
+      ansible_host: 172.16.100.102
+    controller3:
+      ansible_host: 172.16.100.103
+    compute1:
+      ansible_host: 172.16.100.105
+    compute2:
+      ansible_host: 172.16.100.106
+    storage1:
+      ansible_host: 172.16.100.108
+    haproxy1:
+      ansible_host: 172.16.100.109
+
+controllers:
+  hosts:
+    controller1:
+    controller2:
+    controller3:
+
+compute:
+  hosts:
+    compute1:
+    compute2:
+
+storage:
+  hosts:
+    storage1:
+
+haproxy:
+  hosts:
+    haproxy1:

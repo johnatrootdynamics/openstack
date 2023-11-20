@@ -1,0 +1,49 @@
+---
+
+- name: Prepare hosts for openstack
+  hosts: all  # Replace with the target host or group of hosts
+  become: yes  # Run tasks with elevated privileges
+
+  tasks:
+    - name: Ensure root SSH directory exists
+      file:
+        path: "/root/.ssh"
+        state: directory
+        mode: "0700"
+
+    - name: Import SSH keys for root user
+      authorized_key:
+        user: root
+        key: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"
+        state: present
+
+    - name: Comment out 127.0.1.1 in /etc/hosts
+      lineinfile:
+        path: /etc/hosts
+        regexp: '^127.0.1.1'
+        line: '# \g<0>'
+
+    - name: Update package list
+      apt:
+        update_cache: yes
+
+    - name: Upgrade all packages
+      apt:
+        upgrade: dist
+
+    - name: Install required packages
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - bridge-utils
+        - debootstrap
+        - openssh-server
+        - tcpdump
+        - vlan
+        - python3
+
+    - name: Install linux-modules-extra for the current kernel version
+      apt:
+        name: "linux-modules-extra-{{ ansible_kernel }}"
+        state: present
