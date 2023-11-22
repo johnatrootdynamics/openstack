@@ -5,7 +5,7 @@
   - role: osprep
   include: droles/networking/tasks/main.yml
 
-  hosts: controllers
+- hosts: controllers
   become: true
   tasks:
     - name: Install bridge-utils and vlan packages
@@ -23,7 +23,7 @@
         - { name: "br-mgmt", ip: "{{ br_mgmt_ip }}", vlan: 1000, interface: "ens160" }
         - { name: "br-vxlan", ip: "{{ br_vxlan_ip }}", vlan: 1003, interface: "ens160" }
 
-  name: Create Networking on compute hosts
+- name: Create Networking on compute hosts
   hosts: compute  # Replace with the target host or group of hosts
   become: yes  # Run tasks with elevated privileges
 
@@ -44,7 +44,7 @@
         - { name: "br-vxlan", ip: "{{ br_vxlan_ip }}", vlan: 1003, interface: "ens160" }
         - { name: "br-storage", ip: "{{ br_storage_ip }}", vlan: 1004, interface: "ens160" }
 
-  name: Create Networking on storage hosts
+- name: Create Networking on storage hosts
   hosts: storage  # Replace with the target host or group of hosts
   become: yes  # Run tasks with elevated privileges
 
@@ -64,7 +64,7 @@
         - { name: "br-mgmt", ip: "{{ br_mgmt_ip }}", vlan: 1000, interface: "ens160" }
         - { name: "br-storage", ip: "{{ br_storage_ip }}", vlan: 1004, interface: "ens160" }
 
- name: Create Networking on HAPROXY hosts
+- name: Create Networking on HAPROXY hosts
   hosts: haproxy  # Replace with the target host or group of hosts
   become: yes  # Run tasks with elevated privileges
 
