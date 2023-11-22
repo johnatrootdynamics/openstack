@@ -17,6 +17,7 @@
       loop:
         - { name: "br-mgmt", ip: "{{ br_mgmt_ip }}", vlan: 1000, interface: "ens160" }
         - { name: "br-vxlan", ip: "{{ br_vxlan_ip }}", vlan: 1003, interface: "ens160" }
+      when: bridge_status.rc != 0
 
 - name: Create Networking on compute hosts
   hosts: compute  # Replace with the target host or group of hosts
@@ -38,6 +39,7 @@
         - { name: "br-mgmt", ip: "{{ br_mgmt_ip }}", vlan: 1000, interface: "ens160" }
         - { name: "br-vxlan", ip: "{{ br_vxlan_ip }}", vlan: 1003, interface: "ens160" }
         - { name: "br-storage", ip: "{{ br_storage_ip }}", vlan: 1004, interface: "ens160" }
+      when: bridge_status.rc != 0
 
 - name: Create Networking on storage hosts
   hosts: storage  # Replace with the target host or group of hosts
@@ -58,6 +60,7 @@
       loop:
         - { name: "br-mgmt", ip: "{{ br_mgmt_ip }}", vlan: 1000, interface: "ens160" }
         - { name: "br-storage", ip: "{{ br_storage_ip }}", vlan: 1004, interface: "ens160" }
+      when: bridge_status.rc != 0
 
 - name: Create Networking on HAPROXY hosts
   hosts: haproxy  # Replace with the target host or group of hosts
@@ -78,5 +81,6 @@
       loop:
         - { name: "br-mgmt", ip: "{{ br_mgmt_ip }}", vlan: 1000, interface: "ens160" }
         - { name: "br-public", ip: "{{ br_storage_ip }}", vlan: 1001, interface: "ens160" }
+      when: bridge_status.rc != 0
 
 
