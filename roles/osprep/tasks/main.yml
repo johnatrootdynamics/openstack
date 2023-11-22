@@ -41,3 +41,7 @@
   apt:
     name: "linux-modules-extra-{{ ansible_kernel }}"
     state: present
+
+- name: Set hostname to the variable specified in inventory
+  hostname:
+    name: "{{ hostname }}"

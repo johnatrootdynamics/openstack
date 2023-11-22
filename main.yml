@@ -23,7 +23,7 @@
         - { name: "br-vxlan", ip: "{{ br_vxlan_ip }}", vlan: 1003, interface: "ens160" }
 
 - name: Create Networking on compute hosts
-  hosts: compute  # Replace with the target host or group of hosts
+  hosts: compute  # Replace with the target host or groudp of hosts
   become: yes  # Run tasks with elevated privileges
 
   tasks:
