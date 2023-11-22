@@ -36,7 +36,7 @@
                   - vlan1000
                 dhcp4: no
                 addresses:
-                  - 172.16.100.101/24
+                  - {{ br_mgmt_ip }}
                 gateway4: 172.16.100.254
         dest: /etc/netplan/01-vlan-bridge.yaml
     
