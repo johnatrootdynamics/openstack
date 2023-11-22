@@ -1,4 +1,4 @@
-- name: Prepare hosts for openstack
+name: Prepare hosts for openstack
   hosts: all  # Replace with the target host or group of hosts
   become: yes  # Run tasks with elevated privileges
 
