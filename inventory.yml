@@ -2,12 +2,31 @@
 all:
   hosts:
     controller1:
+      ansible_host: 172.16.100.101/24
+      br_mgmt_ip: 172.16.100.101/24
+      br_vxlan_ip: 172.16.120.1/24
     controller2:
+      ansible_host: 172.16.100.102/24
+      br_mgmt_ip: 172.16.100.101/24
+      br_vxlan_ip: 172.16.120.2/24
     controller3:
+      ansible_host: 172.16.100.103/24
+      br_mgmt_ip: 172.16.100.101/24
+      br_vxlan_ip: 172.16.120.3/24
     compute1:
+      ansible_host: 172.16.100.105/24
+      br_vxlan_ip: 172.16.120.4/24
+      br_storage_ip: 172.16.150.2/24
     compute2:
+      ansible_host: 172.16.100.106/24
+      br_vxlan_ip: 172.16.120.5/24
+      br_storage_ip: 172.16.150.3/24
     storage1:
+      ansible_host: 172.16.100.108/24
+      br_stroage_ip: 172.16.150.1/24
     haproxy1:
+      ansible_host: 172.16.100.109/24
+      br_public_ip: 172.16.10.1/24
 
 controllers:
   hosts:
@@ -26,4 +45,4 @@ storage:
 
 haproxy:
   hosts:
-    haproxy1
+    haproxy1:
