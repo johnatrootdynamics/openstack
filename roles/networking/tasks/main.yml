@@ -12,12 +12,48 @@
         - vlan
       when: ansible_os_family == 'Debian'
 
-    - name: Create bridges
-      command: "brctl addbr {{ item.name }} && ip link set {{ item.name }} up && ip addr add {{ item.ip }}/24 dev {{ item.name }} && vconfig add {{ item.interface }} {{ item.vlan }}"
-      loop:
-        - { name: "br-mgmt", ip: "{{ br_mgmt_ip }}", vlan: 1000, interface: "ens160" }
-        - { name: "br-vxlan", ip: "{{ br_vxlan_ip }}", vlan: 1003, interface: "ens160" }
-      when: bridge_status.rc != 0
+    #- name: Create bridges
+    #  command: "brctl addbr {{ item.name }} && ip link set {{ item.name }} up && ip addr add {{ item.ip }}/24 dev {{ item.name }} && vconfig add {{ item.interface }} {{ item.vlan }}"
+    #  loop:
+    #    - { name: "br-mgmt", ip: "{{ br_mgmt_ip }}", vlan: 1000, interface: "ens160" }
+    #    - { name: "br-vxlan", ip: "{{ br_vxlan_ip }}", vlan: 1003, interface: "ens160" }
+    #  when: bridge_status.rc != 0
+
+
+    - name: Create bridge br_mgmt if it doesn't exist
+      block:
+      - name: Add Netplan configuration for br_mgmt
+        lineinfile:
+          path: /etc/netplan/99-br_mgmt.yaml
+          line: |
+            network:
+              version: 2
+              renderer: networkd
+              ethernets:
+                ens160:
+                  dhcp4: no
+                  dhcp6: no
+              bridges:
+                br_mgmt:
+                  interfaces:
+                    - ens160.1000
+                  addresses:
+                    - {{ br_mgmt_ip }}
+                  dhcp4: no
+                  dhcp6: no
+        become: yes
+
+      - name: Apply Netplan configuration
+        command: netplan apply
+        become: yes
+    when: bridge_status.rc != 0
+
+
+
+
+
+
+
 
 - name: Create Networking on compute hosts
   hosts: compute  # Replace with the target host or group of hosts
