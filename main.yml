@@ -3,7 +3,6 @@
   become: true
   roles:
   - role: osprep
-  include: droles/networking/tasks/main.yml
 
 - hosts: controllers
   become: true
