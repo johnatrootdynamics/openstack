@@ -1,2 +1,4 @@
-- roles:
-  - role: osprep
+---
+- hosts:all
+  roles:
+    role: osprep
