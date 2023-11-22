@@ -16,11 +16,39 @@
         - vlan
       when: ansible_os_family == 'Debian'
 
-    - name: Create bridges
-      command: "brctl addbr {{ item.name }} && ip link set {{ item.name }} up && ip addr add {{ item.ip }}/24 dev {{ item.name }} && vconfig add {{ item.interface }} {{ item.vlan }}"
-      loop:
-        - { name: "br-mgmt", ip: "{{ br_mgmt_ip }}", vlan: 1000, interface: "ens160" }
-        - { name: "br-vxlan", ip: "{{ br_vxlan_ip }}", vlan: 1003, interface: "ens160" }
+#    - name: Create bridges
+#      command: "brctl addbr {{ item.name }} && ip link set {{ item.name }} up && ip addr add {{ item.ip }}/24 dev {{ item.name }} && vconfig add {{ item.interface }} {{ item.vlan }}"
+#      loop:
+#        - { name: "br-mgmt", ip: "{{ br_mgmt_ip }}", vlan: 1000, interface: "ens160" }
+#        - { name: "br-vxlan", ip: "{{ br_vxlan_ip }}", vlan: 1003, interface: "ens160" }
+
+    - name: Create VLAN 1000 on ens160 using Netplan
+      become_user: root
+      copy:
+        content: |
+          network:
+            version: 2
+            renderer: networkd
+            ethernets:
+              ens160:
+                dhcp4: no
+            vlans:
+              vlan1000:
+                id: 1000
+                link: ens160
+                dhcp4: no
+            bridges:
+              br_mgmt:
+                interfaces:
+                  - vlan1000
+                dhcp4: no
+                addresses:
+                  - 172.16.100.101/24
+                gateway4: 172.16.100.254
+        dest: /etc/netplan/01-vlan-bridge.yaml
+      command: netplan apply
+
+
 
 - name: Create Networking on compute hosts
   hosts: compute  # Replace with the target host or groudp of hosts
