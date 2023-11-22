@@ -1,4 +1,3 @@
----
 - name: Create Networking on controller hosts
   hosts: controller  # Replace with the target host or group of hosts
   become: yes  # Run tasks with elevated privileges
