@@ -16,12 +16,6 @@
         - vlan
       when: ansible_os_family == 'Debian'
 
-#    - name: Create bridges
-#      command: "brctl addbr {{ item.name }} && ip link set {{ item.name }} up && ip addr add {{ item.ip }}/24 dev {{ item.name }} && vconfig add {{ item.interface }} {{ item.vlan }}"
-#      loop:
-#        - { name: "br-mgmt", ip: "{{ br_mgmt_ip }}", vlan: 1000, interface: "ens160" }
-#        - { name: "br-vxlan", ip: "{{ br_vxlan_ip }}", vlan: 1003, interface: "ens160" }
-
     - name: Create VLAN 1000 on ens160 using Netpland
       copy:
         content: |
@@ -45,6 +39,8 @@
                   - 172.16.100.101/24
                 gateway4: 172.16.100.254
         dest: /etc/netplan/01-vlan-bridge.yaml
+    
+    - name: apply netplan
       command: netplan apply
 
 
