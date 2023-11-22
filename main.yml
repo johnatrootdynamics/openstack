@@ -22,8 +22,7 @@
 #        - { name: "br-mgmt", ip: "{{ br_mgmt_ip }}", vlan: 1000, interface: "ens160" }
 #        - { name: "br-vxlan", ip: "{{ br_vxlan_ip }}", vlan: 1003, interface: "ens160" }
 
-    - name: Create VLAN 1000 on ens160 using Netplan
-      become_user: root
+    - name: Create VLAN 1000 on ens160 using Netpland
       copy:
         content: |
           network:
