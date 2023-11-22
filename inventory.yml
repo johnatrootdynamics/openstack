@@ -1,1 +1,29 @@
+---
+all:
+  hosts:
+    controller1:
+    controller2:
+    controller3:
+    compute1:
+    compute2:
+    storage1:
+    haproxy1:
 
+controllers:
+  hosts:
+    controller1:
+    controller2:
+    controller3:
+
+compute:
+  hosts:
+    compute1:
+    compute2:
+
+storage:
+  hosts:
+    storage1:
+
+haproxy:
+  hosts:
+    haproxy1
