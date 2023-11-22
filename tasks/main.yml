@@ -2,5 +2,5 @@
   hosts: all # Replace with the target host or group of hosts
 
   roles:
-    - role: networking
     - role: osprep
+
