@@ -16,7 +16,7 @@
         - vlan
       when: ansible_os_family == 'Debian'
 
-    - name: Create VLAN 1000 on ens160 using Netpland
+    - name: Create Bridges on Controllers
       copy:
         content: |
           network:
@@ -30,6 +30,10 @@
                 id: 1000
                 link: ens160
                 dhcp4: no
+              vlan1002:
+                id: 1002
+                link: ens160
+                dhcp4: no
             bridges:
               br_mgmt:
                 interfaces:
@@ -38,10 +42,19 @@
                 addresses:
                   - {{ br_mgmt_ip }}
                 gateway4: 172.16.100.254
+              br_vxlan:
+                interfaces:
+                  - vlan1002
+                dhcp4: no
+                addresses:
+                  - {{ br_vxlan_ip }}
+                gateway4: 172.16.120.254
         dest: /etc/netplan/01-vlan-bridge.yaml
     
     - name: apply netplan
       command: netplan apply
+    - name: remove default netplan
+      command: rm /etc/netplan/00-installer-config.yml
 
 
 
@@ -50,58 +63,144 @@
   become: yes  # Run tasks with elevated privileges
 
   tasks:
-    - name: Install bridge-utils and vlan packages
-      apt:
-        name: "{{ item }}"
-        state: present
-      loop:
-        - bridge-utils
-        - vlan
-      when: ansible_os_family == 'Debian'
 
-    - name: Create bridges
-      command: "brctl addbr {{ item.name }} && ip link set {{ item.name }} up && ip addr add {{ item.ip }}/24 dev {{ item.name }} && vconfig add {{ item.interface }} {{ item.vlan }}"
-      loop:
-        - { name: "br-mgmt", ip: "{{ br_mgmt_ip }}", vlan: 1000, interface: "ens160" }
-        - { name: "br-vxlan", ip: "{{ br_vxlan_ip }}", vlan: 1003, interface: "ens160" }
-        - { name: "br-storage", ip: "{{ br_storage_ip }}", vlan: 1004, interface: "ens160" }
+    - name: Create Bridges on Compute nodes
+      copy:
+        content: |
+          network:
+            version: 2
+            renderer: networkd
+            ethernets:
+              ens160:
+                dhcp4: no
+            vlans:
+              vlan1000:
+                id: 1000
+                link: ens160
+                dhcp4: no
+              vlan1002:
+                id: 1002
+                link: ens160
+                dhcp4: no
+              vlan1004:
+                id: 1004
+                link: ens160
+                dhcp4: no
+            bridges:
+              br_mgmt:
+                interfaces:
+                  - vlan1000
+                dhcp4: no
+                addresses:
+                  - {{ br_mgmt_ip }}
+                gateway4: 172.16.100.254
+              br_vxlan:
+                interfaces:
+                  - vlan1002
+                dhcp4: no
+                addresses:
+                  - {{ br_vxlan_ip }}
+                gateway4: 172.16.120.254
+              br_storage:
+                interfaces:
+                  - vlan1004
+                dhcp4: no
+                addresses:
+                  - {{ br_storage_ip }}
+                gateway4: 172.16.150.254
+        dest: /etc/netplan/01-vlan-bridge.yaml
+    
+    - name: remove default netplan
+      command: rm /etc/netplan/00-installer-config.yml    
+    - name: apply netplan
+      command: netplan apply
 
 - name: Create Networking on storage hosts
   hosts: storage  # Replace with the target host or group of hosts
   become: yes  # Run tasks with elevated privileges
 
   tasks:
-    - name: Install bridge-utils and vlan packages
-      apt:
-        name: "{{ item }}"
-        state: present
-      loop:
-        - bridge-utils
-        - vlan
-      when: ansible_os_family == 'Debian'
-
-    - name: Create bridges
-      command: "brctl addbr {{ item.name }} && ip link set {{ item.name }} up && ip addr add {{ item.ip }}/24 dev {{ item.name }} && vconfig add {{ item.interface }} {{ item.vlan }}"
-      loop:
-        - { name: "br-mgmt", ip: "{{ br_mgmt_ip }}", vlan: 1000, interface: "ens160" }
-        - { name: "br-storage", ip: "{{ br_storage_ip }}", vlan: 1004, interface: "ens160" }
+    - name: Create Bridges on Storage Nodes
+      copy:
+        content: |
+          network:
+            version: 2
+            renderer: networkd
+            ethernets:
+              ens160:
+                dhcp4: no
+            vlans:
+              vlan1000:
+                id: 1000
+                link: ens160
+                dhcp4: no
+              vlan1004:
+                id: 1004
+                link: ens160
+                dhcp4: no
+            bridges:
+              br_mgmt:
+                interfaces:
+                  - vlan1000
+                dhcp4: no
+                addresses:
+                  - {{ br_mgmt_ip }}
+                gateway4: 172.16.100.254
+              br_vxlan:
+                interfaces:
+                  - vlan1004
+                dhcp4: no
+                addresses:
+                  - {{ br_storage_ip }}
+                gateway4: 172.16.150.254
+        dest: /etc/netplan/01-vlan-bridge.yaml
+    
+    - name: remove default netplan
+      command: rm /etc/netplan/00-installer-config.yml    
+    - name: apply netplan
+      command: netplan apply
 
 - name: Create Networking on HAPROXY hosts
   hosts: haproxy  # Replace with the target host or group of hosts
   become: yes  # Run tasks with elevated privileges
 
   tasks:
-    - name: Install bridge-utils and vlan packages
-      apt:
-        name: "{{ item }}"
-        state: present
-      loop:
-        - bridge-utils
-        - vlan
-      when: ansible_os_family == 'Debian'
+    - name: Create Bridges on HAPROXY
+      copy:
+        content: |
+          network:
+            version: 2
+            renderer: networkd
+            ethernets:
+              ens160:
+                dhcp4: no
+            vlans:
+              vlan1001:
+                id: 1001
+                link: ens160
+                dhcp4: no
+              vlan1004:
+                id: 1004
+                link: ens160
+                dhcp4: no
+            bridges:
+              br_mgmt:
+                interfaces:
+                  - vlan1000
+                dhcp4: no
+                addresses:
+                  - {{ br_mgmt_ip }}
+                gateway4: 172.16.100.254
+              br_public:
+                interfaces:
+                  - vlan1001
+                dhcp4: no
+                addresses:
+                  - {{ br_storage_ip }}
+                gateway4: 172.16.10.254
+        dest: /etc/netplan/01-vlan-bridge.yaml
 
-    - name: Create bridges
-      command: "brctl addbr {{ item.name }} && ip link set {{ item.name }} up && ip addr add {{ item.ip }}/24 dev {{ item.name }} && vconfig add {{ item.interface }} {{ item.vlan }}"
-      loop:
-        - { name: "br-mgmt", ip: "{{ br_mgmt_ip }}", vlan: 1000, interface: "ens160" }
-        - { name: "br-public", ip: "{{ br_public_ip }}", vlan: 1001, interface: "ens160" }
+    - name: remove default netplan
+      command: rm /etc/netplan/00-installer-config.yml    
+    - name: apply netplan
+      command: netplan apply
