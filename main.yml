@@ -55,6 +55,8 @@
       command: netplan apply
     - name: remove default netplan
       command: rm /etc/netplan/00-installer-config.yaml
+      async: 45
+      
 
 
 
@@ -114,6 +116,7 @@
       command: rm /etc/netplan/00-installer-config.yaml    
     - name: apply netplan
       command: netplan apply
+      async: 45
 
 - name: Create Networking on storage hosts
   hosts: storage  # Replace with the target host or group of hosts
@@ -159,6 +162,7 @@
       command: rm /etc/netplan/00-installer-config.yaml    
     - name: apply netplan
       command: netplan apply
+      async: 45
 
 - name: Create Networking on HAPROXY hosts
   hosts: haproxy  # Replace with the target host or group of hosts
@@ -204,3 +208,4 @@
       command: rm /etc/netplan/00-installer-config.yaml    
     - name: apply netplan
       command: netplan apply
+      async: 45
