@@ -23,7 +23,7 @@ all:
       br_storage_ip: 172.16.150.2/24
       hostname: compute1
     compute2:
-      br_mgmt_ip: 172.16.100.105/24
+      br_mgmt_ip: 172.16.100.106/24
       ansible_host: 172.16.100.106
       br_vxlan_ip: 172.16.120.5/24
       br_storage_ip: 172.16.150.3/24
