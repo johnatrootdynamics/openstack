@@ -146,7 +146,7 @@
                 addresses:
                   - {{ br_mgmt_ip }}
                 gateway4: 172.16.100.254
-              br_vxlan:
+              br_storage:
                 interfaces:
                   - vlan1004
                 dhcp4: no
