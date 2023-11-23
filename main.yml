@@ -54,7 +54,7 @@
     - name: apply netplan
       command: netplan apply
     - name: remove default netplan
-      command: rm /etc/netplan/00-installer-config.yml
+      command: rm /etc/netplan/00-installer-config.yaml
 
 
 
@@ -111,7 +111,7 @@
         dest: /etc/netplan/01-vlan-bridge.yaml
     
     - name: remove default netplan
-      command: rm /etc/netplan/00-installer-config.yml    
+      command: rm /etc/netplan/00-installer-config.yaml    
     - name: apply netplan
       command: netplan apply
 
@@ -156,7 +156,7 @@
         dest: /etc/netplan/01-vlan-bridge.yaml
     
     - name: remove default netplan
-      command: rm /etc/netplan/00-installer-config.yml    
+      command: rm /etc/netplan/00-installer-config.yaml    
     - name: apply netplan
       command: netplan apply
 
@@ -201,6 +201,6 @@
         dest: /etc/netplan/01-vlan-bridge.yaml
 
     - name: remove default netplan
-      command: rm /etc/netplan/00-installer-config.yml    
+      command: rm /etc/netplan/00-installer-config.yaml    
     - name: apply netplan
       command: netplan apply
