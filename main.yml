@@ -51,10 +51,12 @@
                 gateway4: 172.16.120.254
         dest: /etc/netplan/01-vlan-bridge.yaml
     
+    - name: remove default netplan
+      file:
+        path: /etc/netplan/00-installer-config.yaml
+        state: absent
     - name: apply netplan
       command: netplan apply
-    - name: remove default netplan
-      command: rm /etc/netplan/00-installer-config.yaml
       async: 45
       
 
@@ -113,7 +115,9 @@
         dest: /etc/netplan/01-vlan-bridge.yaml
     
     - name: remove default netplan
-      command: rm /etc/netplan/00-installer-config.yaml    
+      file:
+        path: /etc/netplan/00-installer-config.yaml
+        state: absent
     - name: apply netplan
       command: netplan apply
       async: 45
@@ -159,7 +163,9 @@
         dest: /etc/netplan/01-vlan-bridge.yaml
     
     - name: remove default netplan
-      command: rm /etc/netplan/00-installer-config.yaml    
+      file:
+        path: /etc/netplan/00-installer-config.yaml
+        state: absent   
     - name: apply netplan
       command: netplan apply
       async: 45
@@ -205,7 +211,9 @@
         dest: /etc/netplan/01-vlan-bridge.yaml
 
     - name: remove default netplan
-      command: rm /etc/netplan/00-installer-config.yaml    
+      file:
+        path: /etc/netplan/00-installer-config.yaml
+        state: absent
     - name: apply netplan
       command: netplan apply
       async: 45
