@@ -206,7 +206,7 @@
                   - vlan1001
                 dhcp4: no
                 addresses:
-                  - {{ br_storage_ip }}
+                  - {{ br_public_ip }}
                 gateway4: 172.16.10.254
         dest: /etc/netplan/01-vlan-bridge.yaml
 
