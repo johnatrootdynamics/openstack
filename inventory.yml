@@ -36,7 +36,7 @@ all:
     haproxy1:
       ansible_host: 172.16.100.109
       br_mgmt_ip: 172.16.100.109/24
-      br_public_ip: 172.16.10.1/24
+      br_public_ip: 172.16.10.109/24
       hostname: haproxy1
 controllers:
   hosts:
