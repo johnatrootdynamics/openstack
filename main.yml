@@ -44,21 +44,21 @@
                   - vlan1000
                 dhcp4: no
                 addresses:
-                  - {{ br-mgmt_ip }}
+                  - {{ br_mgmt_ip }}
                 gateway4: 172.16.100.254
               br-vxlan:
                 interfaces:
                   - vlan1002
                 dhcp4: no
                 addresses:
-                  - {{ br-vxlan_ip }}
+                  - {{ br_vxlan_ip }}
                 gateway4: 172.16.120.254
               br-storage:
                 interfaces:
                   - vlan1004
                 dhcp4: no
                 addresses:
-                  - {{ br-storage_ip }}
+                  - {{ br_storage_ip }}
                 gateway4: 172.16.150.254
         dest: /etc/netplan/01-vlan-bridge.yaml
     
@@ -107,21 +107,21 @@
                   - vlan1000
                 dhcp4: no
                 addresses:
-                  - {{ br-mgmt_ip }}
+                  - {{ br_mgmt_ip }}
                 gateway4: 172.16.100.254
               br-vxlan:
                 interfaces:
                   - vlan1002
                 dhcp4: no
                 addresses:
-                  - {{ br-vxlan_ip }}
+                  - {{ br_vxlan_ip }}
                 gateway4: 172.16.120.254
               br-storage:
                 interfaces:
                   - vlan1004
                 dhcp4: no
                 addresses:
-                  - {{ br-storage_ip }}
+                  - {{ br_storage_ip }}
                 gateway4: 172.16.150.254
         dest: /etc/netplan/01-vlan-bridge.yaml
     
@@ -162,14 +162,14 @@
                   - vlan1000
                 dhcp4: no
                 addresses:
-                  - {{ br-mgmt_ip }}
+                  - {{ br_mgmt_ip }}
                 gateway4: 172.16.100.254
               br-storage:
                 interfaces:
                   - vlan1004
                 dhcp4: no
                 addresses:
-                  - {{ br-storage_ip }}
+                  - {{ br_storage_ip }}
                 gateway4: 172.16.150.254
         dest: /etc/netplan/01-vlan-bridge.yaml
     
@@ -210,14 +210,14 @@
                   - vlan1000
                 dhcp4: no
                 addresses:
-                  - {{ br-mgmt_ip }}
+                  - {{ br_mgmt_ip }}
                 gateway4: 172.16.100.254
               br-public:
                 interfaces:
                   - vlan1001
                 dhcp4: no
                 addresses:
-                  - {{ br-public_ip }}
+                  - {{ br_public_ip }}
                 gateway4: 172.16.10.254
         dest: /etc/netplan/01-vlan-bridge.yaml
 
