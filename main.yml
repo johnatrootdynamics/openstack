@@ -213,6 +213,7 @@
                 dhcp4: no
                 addresses:
                   - {{ br_public_ip }}
+                gateway4: 172.16.10.254
         dest: /etc/netplan/01-vlan-bridge.yaml
 
     - name: remove default netplan
