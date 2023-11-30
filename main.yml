@@ -39,26 +39,26 @@
                 link: ens160
                 dhcp4: no
             bridges:
-              br_mgmt:
+              br-mgmt:
                 interfaces:
                   - vlan1000
                 dhcp4: no
                 addresses:
-                  - {{ br_mgmt_ip }}
+                  - {{ br-mgmt_ip }}
                 gateway4: 172.16.100.254
-              br_vxlan:
+              br-vxlan:
                 interfaces:
                   - vlan1002
                 dhcp4: no
                 addresses:
-                  - {{ br_vxlan_ip }}
+                  - {{ br-vxlan_ip }}
                 gateway4: 172.16.120.254
-              br_storage:
+              br-storage:
                 interfaces:
                   - vlan1004
                 dhcp4: no
                 addresses:
-                  - {{ br_storage_ip }}
+                  - {{ br-storage_ip }}
                 gateway4: 172.16.150.254
         dest: /etc/netplan/01-vlan-bridge.yaml
     
@@ -102,26 +102,26 @@
                 link: ens160
                 dhcp4: no
             bridges:
-              br_mgmt:
+              br-mgmt:
                 interfaces:
                   - vlan1000
                 dhcp4: no
                 addresses:
-                  - {{ br_mgmt_ip }}
+                  - {{ br-mgmt_ip }}
                 gateway4: 172.16.100.254
-              br_vxlan:
+              br-vxlan:
                 interfaces:
                   - vlan1002
                 dhcp4: no
                 addresses:
-                  - {{ br_vxlan_ip }}
+                  - {{ br-vxlan_ip }}
                 gateway4: 172.16.120.254
-              br_storage:
+              br-storage:
                 interfaces:
                   - vlan1004
                 dhcp4: no
                 addresses:
-                  - {{ br_storage_ip }}
+                  - {{ br-storage_ip }}
                 gateway4: 172.16.150.254
         dest: /etc/netplan/01-vlan-bridge.yaml
     
@@ -157,19 +157,19 @@
                 link: ens160
                 dhcp4: no
             bridges:
-              br_mgmt:
+              br-mgmt:
                 interfaces:
                   - vlan1000
                 dhcp4: no
                 addresses:
-                  - {{ br_mgmt_ip }}
+                  - {{ br-mgmt_ip }}
                 gateway4: 172.16.100.254
-              br_storage:
+              br-storage:
                 interfaces:
                   - vlan1004
                 dhcp4: no
                 addresses:
-                  - {{ br_storage_ip }}
+                  - {{ br-storage_ip }}
                 gateway4: 172.16.150.254
         dest: /etc/netplan/01-vlan-bridge.yaml
     
@@ -205,19 +205,19 @@
                 link: ens160
                 dhcp4: no
             bridges:
-              br_mgmt:
+              br-mgmt:
                 interfaces:
                   - vlan1000
                 dhcp4: no
                 addresses:
-                  - {{ br_mgmt_ip }}
+                  - {{ br-mgmt_ip }}
                 gateway4: 172.16.100.254
-              br_public:
+              br-public:
                 interfaces:
                   - vlan1001
                 dhcp4: no
                 addresses:
-                  - {{ br_public_ip }}
+                  - {{ br-public_ip }}
                 gateway4: 172.16.10.254
         dest: /etc/netplan/01-vlan-bridge.yaml
 
