@@ -21,9 +21,9 @@
   apt:
     update_cache: yes
 
-- name: Upgrade all packages
-  apt:
-    upgrade: dist
+#- name: Upgrade all packages
+#  apt:
+#   upgrade: dist
 
 - name: Install required packages
   apt:
