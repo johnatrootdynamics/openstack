@@ -52,8 +52,6 @@
                 interfaces:
                   - vlan1002
                 dhcp4: no
-                addresses:
-                  - {{ br_vxlan_ip }}
               br-storage:
                 interfaces:
                   - vlan1004
