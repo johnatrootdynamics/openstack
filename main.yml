@@ -231,6 +231,3 @@
     - name: apply netplan
       command: netplan apply
       async: 45
-
-
-check bridges
